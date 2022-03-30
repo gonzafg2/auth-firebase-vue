@@ -2,11 +2,28 @@
   <div id="app">
     <nav>
       <router-link to="/">Home</router-link> |
+      <template v-if="!loggedIn">
+        <router-link to="/login">Login</router-link> |
+      </template>
+      <template v-else>
+        <button class="btn btn-link">Logout</button> |
+      </template>
       <router-link to="/about">About</router-link>
     </nav>
     <router-view />
   </div>
 </template>
+
+<script>
+export default {
+  name: "App",
+  computed: {
+    loggedIn() {
+      return localStorage.getItem("loggedIn") ? true : false;
+    },
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
