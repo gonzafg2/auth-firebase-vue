@@ -38,5 +38,10 @@ export default new Vuex.Store({
         console.error(error);
       }
     },
+    logout({ commit }) {
+      localStorage.removeItem("loggedIn");
+      commit("SET_LOGGED_IN", false);
+      router.push("/login");
+    },
   },
 });

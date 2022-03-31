@@ -66,9 +66,9 @@ export default {
   &__cta {
     margin: 10px 0;
   }
-  &__input {
-  }
-  &__title {
-  }
+  // &__input {
+  // }
+  // &__title {
+  // }
 }
 </style>
