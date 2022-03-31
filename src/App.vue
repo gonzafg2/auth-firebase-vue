@@ -16,8 +16,6 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import { db } from "@/helpers/firebase.js";
-import { collection, getDocs } from "firebase/firestore";
 
 export default {
   name: "App",
@@ -28,19 +26,10 @@ export default {
     },
   },
   created() {
-    this.getCollection();
+    this.getCollectionTrabajadores();
   },
   methods: {
-    ...mapActions(["logout"]),
-    async getCollection() {
-      try {
-        const request = await getDocs(collection(db, "trabajadores"));
-
-        request.forEach((doc) => console.log(doc.data()));
-      } catch (error) {
-        console.error(error);
-      }
-    },
+    ...mapActions(["logout", "getCollectionTrabajadores"]),
   },
 };
 </script>
