@@ -64,10 +64,15 @@ export default {
     cancelUpdate() {
       this.$router.push("/");
     },
-    updateTrabajadorLocal() {
-      this.SET_EDIT_TRABAJADOR_NOMBRE(this.trabajador.nombre);
-      this.SET_EDIT_TRABAJADOR_EDAD(this.trabajador.edad);
-      this.updateTrabajador();
+    async updateTrabajadorLocal() {
+      this.SET_EDIT_TRABAJADOR_NOMBRE(
+        this.trabajador.nombre || this.editTrabajador.nombre
+      );
+      this.SET_EDIT_TRABAJADOR_EDAD(
+        this.trabajador.edad || this.editTrabajador.edad
+      );
+      await this.updateTrabajador();
+      this.$router.push("/");
     },
   },
 };

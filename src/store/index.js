@@ -95,7 +95,6 @@ export default new Vuex.Store({
       } catch (error) {
         console.error(error);
       }
-      console.log("updateTrabajador", trabajador);
     },
   },
 });
