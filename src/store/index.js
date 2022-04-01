@@ -5,7 +5,13 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import router from "@/router";
 
 import { db } from "@/helpers/firebase.js";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  /*setDoc,*/
+  updateDoc,
+} from "firebase/firestore";
 
 Vue.use(Vuex);
 
@@ -13,13 +19,9 @@ export default new Vuex.Store({
   state: {
     loggedIn: false,
     trabajadores: [],
-    editTrabajador: "",
+    editTrabajador: {},
   },
-  getters: {
-    getTrabajadorFiltered: (state) => (payload) => {
-      return state.trabajadores.find((fil) => fil.id === payload);
-    },
-  },
+  getters: {},
   mutations: {
     SET_LOGGED_IN(state, payload) {
       state.loggedIn = payload;
@@ -29,6 +31,12 @@ export default new Vuex.Store({
     },
     SET_EDIT_TRABAJADOR(state, payload) {
       state.editTrabajador = payload;
+    },
+    SET_EDIT_TRABAJADOR_NOMBRE(state, payload) {
+      state.editTrabajador.nombre = payload;
+    },
+    SET_EDIT_TRABAJADOR_EDAD(state, payload) {
+      state.editTrabajador.edad = payload;
     },
   },
   actions: {
@@ -62,11 +70,32 @@ export default new Vuex.Store({
       try {
         const request = await getDocs(collection(db, "trabajadores"));
         // request.forEach((doc) => console.log(doc.data()));
-        const data = request.docs.map((doc) => doc.data());
+
+        const data = request.docs.map((doc) => {
+          const obj = {
+            ...doc.data(),
+            idFirebase: doc.id,
+          };
+          return obj;
+        });
+
         commit("SET_DATA_TRABAJADORES", data);
       } catch (error) {
         console.error(error);
       }
+    },
+    async updateTrabajador({ state }) {
+      const trabajador = state.editTrabajador;
+      const idFirebase = trabajador.idFirebase;
+      delete trabajador.idFirebase;
+      try {
+        const refDoc = doc(db, "trabajadores", idFirebase);
+        // await setDoc(refDoc, trabajador);
+        await updateDoc(refDoc, trabajador);
+      } catch (error) {
+        console.error(error);
+      }
+      console.log("updateTrabajador", trabajador);
     },
   },
 });

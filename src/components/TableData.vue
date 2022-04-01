@@ -16,9 +16,7 @@
         <td>{{ trabajador.edad }}</td>
         <td>{{ trabajador.hijos ? "Si" : "No" }}</td>
         <td>
-          <span @click="moveToEdit(trabajador.id)" class="cursor-pointer"
-            >✏️</span
-          >
+          <span @click="moveToEdit(trabajador)" class="cursor-pointer">✏️</span>
         </td>
       </tr>
     </tbody>
@@ -38,8 +36,8 @@ export default {
   },
   methods: {
     ...mapMutations(["SET_EDIT_TRABAJADOR"]),
-    moveToEdit(id) {
-      this.SET_EDIT_TRABAJADOR(id);
+    moveToEdit(trabajador) {
+      this.SET_EDIT_TRABAJADOR(trabajador);
       this.$router.push("/edit");
     },
   },
