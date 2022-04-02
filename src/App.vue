@@ -1,35 +1,24 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <template v-if="!isloggedIn">
-        <router-link to="/login">Login</router-link> |
-      </template>
-      <template v-else>
-        <button @click="logout" class="btn btn-link">Logout</button> |
-      </template>
-      <router-link to="/about">About</router-link>
-    </nav>
+    <NavBar></NavBar>
     <router-view />
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions } from "vuex";
+import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: "App",
-  computed: {
-    ...mapState(["loggedIn"]),
-    isloggedIn() {
-      return this.loggedIn ? true : false;
-    },
+  components: {
+    NavBar,
   },
   created() {
     this.getCollectionTrabajadores();
   },
   methods: {
-    ...mapActions(["logout", "getCollectionTrabajadores"]),
+    ...mapActions(["getCollectionTrabajadores"]),
   },
 };
 </script>

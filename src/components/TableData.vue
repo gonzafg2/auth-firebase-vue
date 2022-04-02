@@ -1,26 +1,23 @@
 <template>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Edad</th>
-        <th scope="col">Hijos</th>
-        <th scope="col">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(trabajador, i) in data" :key="i">
-        <th scope="row">{{ i + 1 }}</th>
-        <td>{{ trabajador.nombre }}</td>
-        <td>{{ trabajador.edad }}</td>
-        <td>{{ trabajador.hijos ? "Si" : "No" }}</td>
-        <td>
-          <span @click="moveToEdit(trabajador)" class="cursor-pointer">✏️</span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <b-table
+    bordered
+    striped
+    hover
+    :items="data"
+    :fields="titles"
+    :busy="data.length === 0"
+  >
+    <template #table-busy>
+      <div class="text-center text-danger my-2">
+        <b-spinner class="align-middle"></b-spinner>
+        <strong> Cargando datos de la NASA...</strong>
+      </div>
+    </template>
+
+    <template #cell(hijos)="data">
+      {{ data.value ? "Si" : "No" }}
+    </template>
+  </b-table>
 </template>
 
 <script>
@@ -28,6 +25,27 @@ import { mapMutations } from "vuex";
 
 export default {
   name: "TableData",
+  data() {
+    return {
+      titles: [
+        {
+          label: "Nombre Completo",
+          key: "nombre",
+          sortable: false,
+        },
+        {
+          label: "Edad (Años)",
+          key: "edad",
+          sortable: false,
+        },
+        {
+          label: "¿Tiene Hijos?",
+          key: "hijos",
+          sortable: false,
+        },
+      ],
+    };
+  },
   props: {
     data: {
       type: Array,
